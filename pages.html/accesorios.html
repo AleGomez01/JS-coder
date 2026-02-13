@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+    <!--BOOSTRAP-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+     <!-- CSS -->
+    <!-- <link rel="stylesheet" href="../styles/style.css"> -->
+
+</head>
+<body>
+   <header>
+      <div class="logo-container">
+        <a href="../index.html">
+      <img class="logo" src="../assets/images/felicia-logo.png" alt="logo">
+      </a>
+      </div>
+
+    <!-- nav-->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link" href="../index.html">Felicia</a>
+            <a class="nav-link" aria-current="page" href="./sobrenosotros.html">Sobre Nosotros</a>
+            <a class="nav-link" href="#">Accesorios</a>
+            <a class="nav-link" href="./enviosydevoluciones.html">Envios</a>
+            <a class="nav-link" href="./contacto.html">Contacto</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    </header>
+
+    <main>
+            <section class="section-accesorios-filtro">
+              <h1>ACCESORIOS</h1>
+              
+              <div class="accesorios-filtro">
+                <select class="form-select form-select-sm" aria-label="Small select example">
+                 <option selected>Precio</option>
+                 <option value="1">Todos los precios</option>
+                 <option value="2">Menor a $20.000</option>
+                 <option value="3">$20.000 – $30.000</option>
+                 <option value="4">$30.000 – $40.000</option>
+                 <option value="5">Mayor a $40.000</option>
+                </select>
+
+                <select class="form-select form-select-sm" aria-label="Small select example">
+                 <option selected>Tipo</option>
+                 <option value="1">Todos los tipos</option>
+                 <option value="2">Bolsos</option>
+                 <option value="3">Mochilas</option>
+                 <option value="4">Carteras</option>
+                 <option value="5">Riñoneras</option>
+                 <option value="6">Accesorios</option>
+                </select>
+
+                <select class="form-select form-select-sm" aria-label="Small select example">
+                 <option selected>Accesorios</option>
+                 <option value="1">Todos</option>
+                 <option value="2">Monederos</option>
+                 <option value="3">Porta tarjetas</option>
+                 <option value="4">Kindle Pouches</option>
+                 <option value="5">Neceseres</option>
+                 <option value="6">Llaveros</option>
+                </select>
+
+              </div>
+
+            </section>
+
+            <section class="accesorios-container" id="contenedorProductos">
+            </section>
+
+            <section class="nuevas-piezas">
+
+              <h3>Nuevas piezas proximamente</h3>
+
+            </section>
+    </main>
+
+    <footer>
+        <p class= "footer-p">©Marca. Todos los derechos reservados</p>
+        <p class= "footer-p">gustavogomez.ale@gmail.com 1127720560</p>
+    </footer>
+
+     <!-- BOOTSTRAP -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+     <script src="../Js/accesorios.js"></script>
+
+</body>
+
+</html>
