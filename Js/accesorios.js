@@ -1,3 +1,5 @@
+let carrito = JSON.parse(localStorage.getItem('carrito')) || []
+
 const productos = [
     {id: 1,
      nombre: "Monedero hueso",
@@ -48,8 +50,6 @@ const productos = [
     },
 ]
 
-console.log(productos)
-
 const elcontenedorProductos = document.getElementById('contenedorProductos')
 
 
@@ -69,5 +69,45 @@ function renderProductos(){
 
 renderProductos()
 
-const activarBotones = document.querySelectorAll(`btn-agregar`)
+activarBotones()
 
+function activarBotones(){
+    const botones = document.querySelectorAll(`.btn-agregar`)
+
+    botones.forEach(boton =>{
+        boton.addEventListener("click", (e) => { 
+            const productoid = parseInt(e.target.dataset.id,10);
+        
+            const añadiraCarrito = productos.find (producto => producto.id === productoid)
+
+            carrito.push(añadiraCarrito)
+
+            guardarCarrito()
+
+            renderCarrito()
+        });
+    });
+}
+
+
+function guardarCarrito () {
+localStorage.setItem('carrito',JSON.stringify(carrito))
+}
+
+const contenedorCarrito = document.getElementById("contenedorCarrito");
+
+function renderCarrito() {
+    contenedorCarrito.innerHTML = carrito.map(p => `
+        <div>
+            ${p.nombre} - $${p.precio}
+        </div>
+    `).join("");
+}
+
+const btnFinalizar = document.getElementById("btnFinalizar");
+
+btnFinalizar.addEventListener("click", () => {
+    carrito = [];
+    guardarCarrito();
+    renderCarrito();
+});
