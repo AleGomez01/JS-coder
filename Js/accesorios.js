@@ -109,11 +109,10 @@ btnFinalizar.addEventListener("click", () => {
     }
 
     Swal.fire({
-        icon: 'success',
-        title: '¡Compra realizada!',
-        text: 'Gracias por confiar en nosotros',
-        confirmButtonText: 'Genial'
-    })
+    icon: 'success',
+    title: '¡Compra realizada!',
+    text: 'Gracias por confiar en Felicia 👜',
+})
 
     carrito = []
     guardarCarrito()
