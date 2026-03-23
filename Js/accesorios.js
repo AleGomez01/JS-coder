@@ -1,54 +1,24 @@
 let carrito = JSON.parse(localStorage.getItem('carrito')) || []
 
-const productos = [
-    {id: 1,
-     nombre: "Monedero hueso",
-     precio: 25000,
-     categoria: "monedero",
-     imagen: "../assets/images/accesorio-monedero-color-hueso.png",
-     descripcion: "Diseño simple y elegante, pensado para el uso diario y fácil de combinar.",
-    },
+let productos = []
 
-    {id: 2,
-     nombre: "Monedero terracota",
-     precio: 25000,
-     categoria: "monedero",
-     imagen: "../assets/images/accesorio-monedero-color-terracota.png",
-     descripcion:"Monedero compacto y funcional, ideal para llevar monedas y pequeños objetos con estilo.",
-    },
+const totalCompra = document.getElementById("totalCompra");
 
-    {id: 3,
-     nombre: "Neceser rosa",
-     precio: 38000,
-     categoria: "neceser",
-     imagen: "../assets/images/accesorio-nesecer-color-rosa.png",
-     descripcion: "Espacioso y práctico, ideal para organizar cosméticos o artículos personales.",
-    },
+async function cargarProductos() {
+  try {
+    const response = await fetch('/data/productos.json')
+    const data = await response.json()
 
-    {id: 4,
-     nombre: "Neceser hueso",
-     precio: 38000,
-     categoria: "neceser",
-     imagen: "../assets/images/accesorio-neseceres-color-hueso.png",
-     descripcion: "Un accesorio versátil para viajes o uso diario, con un diseño limpio y moderno.",
-    },
+  productos = data
+  renderProductos()
+  activarBotones()
 
-    {id: 5,
-        nombre: "Funda oliva",
-        precio: 30000,
-     categoria: "funda-porta-libro",
-     imagen: "../assets/images/accesorio-portalibro-color-verde.png",
-     descripcion:"Ideal para llevar libros en la mochila sin dañarlos, con un estilo natural." ,
-    },
-    
-    {id: 6,
-     nombre: "Porta tarjeta",
-     precio: 18000,
-     categoria: "porta-tarjeta",
-     imagen: "../assets/images/accesorio-portatarjeta-color-verde.png",
-     descripcion: "Liviano y práctico, pensado para llevar tarjetas esenciales de forma ordenada.",
-    },
-]
+  } catch (error) {
+    console.warn("Error cargando productos", error)
+  }
+}
+
+cargarProductos()
 
 const elcontenedorProductos = document.getElementById('contenedorProductos')
 
@@ -67,23 +37,27 @@ function renderProductos(){
 }
 
 
-renderProductos()
 
-activarBotones()
 
 function activarBotones(){
     const botones = document.querySelectorAll(`.btn-agregar`)
-
+    
     botones.forEach(boton =>{
         boton.addEventListener("click", (e) => { 
             const productoid = parseInt(e.target.dataset.id,10);
-        
+            
             const añadiraCarrito = productos.find (producto => producto.id === productoid)
+            
+            const existe = carrito.find(p => p.id === añadiraCarrito.id)
 
-            carrito.push(añadiraCarrito)
-
+            if (existe) {
+            existe.cantidad = (existe.cantidad || 1) + 1
+            } else {
+            carrito.push({ ...añadiraCarrito, cantidad: 1 })
+            }
+            
             guardarCarrito()
-
+            
             renderCarrito()
         });
     });
@@ -99,15 +73,59 @@ const contenedorCarrito = document.getElementById("contenedorCarrito");
 function renderCarrito() {
     contenedorCarrito.innerHTML = carrito.map(p => `
         <div>
-            ${p.nombre} - $${p.precio}
+            ${p.nombre} - $${p.precio} x${p.cantidad}
+            <button class="btn-eliminar" data-id="${p.id}">❌</button>
         </div>
     `).join("");
+
+    const total = carrito.reduce((acc, p) => acc + (p.precio * p.cantidad), 0)
+    totalCompra.innerText = `Total: $${total}`
+
+    activarBotonesEliminar() 
+}
+
+function activarBotonesEliminar() {
+  const botonesEliminar = document.querySelectorAll(".btn-eliminar")
+
+  botonesEliminar.forEach(boton => {
+    boton.addEventListener("click", (e) => {
+      const id = parseInt(e.target.dataset.id)
+      eliminarProducto(id)
+    })
+  })
 }
 
 const btnFinalizar = document.getElementById("btnFinalizar");
 
 btnFinalizar.addEventListener("click", () => {
-    carrito = [];
-    guardarCarrito();
-    renderCarrito();
-});
+
+    if(carrito.length === 0){
+        Swal.fire({
+            icon: 'warning',
+            title: 'Carrito vacío',
+            text: 'Agregá productos antes de comprar'
+        })
+        return
+    }
+
+    Swal.fire({
+        icon: 'success',
+        title: '¡Compra realizada!',
+        text: 'Gracias por confiar en nosotros',
+        confirmButtonText: 'Genial'
+    })
+
+    carrito = []
+    guardarCarrito()
+    renderCarrito()
+})
+
+function eliminarProducto(id) {
+  carrito = carrito.filter(p => p.id !== id)
+  guardarCarrito()
+  renderCarrito()
+}
+
+cargarProductos()
+renderCarrito()
+
